@@ -1,0 +1,136 @@
+<!doctype html>
+<!--> 
+  DESCULPA LÁ POR O CSS JS E HTML NO MESMO FICHEIRO MAS É SÓ POR AGORA
+
+  A PARTE Q NÃO FUNCIONA É DO USUÁRIO
+
+
+  <-->
+<html>
+  <head>
+    <title>Zocial - the actual chat ._.</title>
+  <style type="text/css">
+    body{
+    background-color: #45f442;
+    font-family: "Courier New", Courier, monospace; 
+    }
+    li{
+      list-style: none;
+    }
+    #header{
+      margin: 50px;
+    }
+    #messages{
+      width: 40%;
+      margin-left: 20%;
+      list-style: none;
+    }
+    #send-form{
+      position: fixed;
+      margin-bottom: 5%;
+      margin-left: 20%;
+    }
+    #message-in{
+      background-color: grey;
+      border-radius: 10px;
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
+      border: solid;
+      border-width: 2px;
+      border-color: #38bc60;
+      height: 20px;
+    }
+    #room{
+    }
+    #massage{
+      margin: 5px;
+      height: 20px;
+    }
+    #usr-spot{
+      margin-left: 10%;
+      margin-bottom: 50px;
+      background-color: #38bc60;
+      width: 30%;
+      border-radius: 10px;
+      padding: 20px;
+    }
+    #user-form{
+      margin-top: 20px;
+    }
+    #current-usr{
+      border: none;
+      background-color: #38bc60;
+      border-radius: 10px;
+      margin-top: 15px;
+      height: 20px;
+    }
+    #send-usr{
+      background-color: #5d9afc;
+      border: none;
+      border-radius: 10px;
+      height: 20px;
+    }
+    #send-button{
+      border: solid;
+      border-bottom-right-radius: 10px;
+      border-top-right-radius: 10px;
+      background-color: #38bc60;
+      border-color: #38bc60;
+      height: 26px;
+      color: black;
+    }
+    #usr{
+            background-color: #5d9afc;
+            border-style: none;
+            height: 30px;
+            margin-right: 10px;
+            border-radius: 10px;
+            margin-top: 30px;
+    }
+</style>
+  </head>
+  <body>
+    <div id="header">
+    <h1>Hey, you actually came!</h1>
+    <h3>Thanks! I didn't actually expect you to come here. Oh well, enjoy the room ;D</h3>
+  </div>
+  <div id="room">
+    <div id="usr-spot">Your amazing lovely username is:
+<form id="user-form"><input id="usr"><button id="send-usr">Change it here :D</button></form>
+    </div>
+    <ul id="messages"></ul>
+    <div id="send-form">
+    <form action="" id="message-formulary">
+      <input id="message-in" autocomplete="off" /><button id="send-button">Give ur words to the world</button>
+    </form>
+  </div>
+</div>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+  $(function () {
+    var socket = io();
+    var username = $('#usr');
+    $('#message-formulary').submit(function(){
+          socket.emit('chat message', $('#message-in').val());
+          $('#message-in').val('');
+          return false;
+        });
+    socket.on('chat message', function(msg){
+      $('#messages').append($('<li class="massage">').text(msg));
+    });
+    function fade(){
+    // do whatever you like here
+    $(".massage").delay(1000).fadeOut(300);
+    setTimeout(fade, 2000);
+    }
+    fade();
+
+    $("#user-form").submit(function(){
+      console.log("THIS WORKS");
+    });
+
+  });
+    </script>
+  </body>
+</html>
