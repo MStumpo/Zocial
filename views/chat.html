@@ -1,5 +1,5 @@
 <!doctype html>
-<!--> 
+<!--
   DESCULPA LÁ POR O CSS JS E HTML NO MESMO FICHEIRO MAS É SÓ POR AGORA
 
   A PARTE Q NÃO FUNCIONA É DO USUÁRIO
@@ -22,6 +22,7 @@
     }
     #messages{
       width: 40%;
+      height: 500px;
       margin-left: 20%;
       list-style: none;
     }
@@ -39,8 +40,6 @@
       border-width: 2px;
       border-color: #38bc60;
       height: 20px;
-    }
-    #room{
     }
     #massage{
       margin: 5px;
@@ -68,7 +67,7 @@
       background-color: #5d9afc;
       border: none;
       border-radius: 10px;
-      height: 20px;
+      height: 40px;
     }
     #send-button{
       border: solid;
@@ -79,6 +78,7 @@
       height: 26px;
       color: black;
     }
+
     #usr{
             background-color: #5d9afc;
             border-style: none;
@@ -87,6 +87,9 @@
             border-radius: 10px;
             margin-top: 30px;
     }
+    #message-spot{
+      margin-right: 20%;
+        }
 </style>
   </head>
   <body>
@@ -95,19 +98,17 @@
     <h3>Thanks! I didn't actually expect you to come here. Oh well, enjoy the room ;D</h3>
   </div>
   <div id="room">
-    <div id="usr-spot">U haven't said your name yet! (not a Pokemon reference)
+    <div id="usr-spot">So, what's your name?
 <form id="user-form" action=""><input id="usr" /><button type="submit" id="send-usr"  >Nice to meet you!</form>
     </div>
+    <div id="message-spot">
     <ul id="messages"></ul>
     <div id="send-form">
     <form action="" id="message-formulary">
-      <input id="message-in" autocomplete="off"><button id="send-button">Give ur words to the world</button>
+      <input id="message-in" class="form-control type_msg" autocomplete="off"><button id="send-button">Give your words to the world</button>
     </form>
-    <div id="user-place">
-    <ul id="user-list"></ul>
   </div>
   </div>
-</div>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
@@ -115,34 +116,36 @@
     var socket = io.connect();
     var username = $('#usr');
     var users = $('#user-list');
+
+    $('#send-form').hide();
     $('#message-formulary').submit(function(){
           socket.emit('message', $('#message-in').val());
           $('#message-in').val('');
           return false;
         });
-    socket.on('message', function(msg){
-      $('#messages').append($('<li class="massage">').text(msg));
+    socket.on('message', function(data){
+      $('#messages').append($('<li class="massage"><strong>'+ data.user +' :</strong> '+ data.msg + '</li>'));
     });
     function fade(){
     // do whatever you like here
-    $(".massage").delay(1000).fadeOut(300);
-    setTimeout(fade, 2000);
+    $(".massage").delay(100).fadeOut(300);
+    setTimeout(fade, 5000);
     }
     fade();
 
     $("#user-form").submit(function(e){
       e.preventDefault();
-      socket.emit('new user', $username.val());
-      $username.val('');
-      console.log("I EXIST YOU CUNT");
-    });
-    socket.on('get users', function(data){
-      var html = '';
-      for (var i = 0; i < data.length; i++) {
-        html += '<li class="list-group-item">'+data[i]+'</li>';
+      socket.emit('new user', $(username).val(), function(data){
+      if (data) {
+        $('#usr-spot').fadeOut(1500);
+        $('#send-form').fadeIn(1500);
       }
-      $users.append(html);
+      });
+      $(username).val('');
     });
+  //  socket.on('get users', function(data){
+    //  $(users).append('<li>'+socket.user+'</li>');
+   // });
   });
     </script>
   </body>
