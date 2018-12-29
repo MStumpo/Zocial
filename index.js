@@ -30,6 +30,7 @@ io.on('connection', function(socket){
   connections.push(socket);
   console.log('Connected: %s people connected', connections.length);
   socket.on('disconnect', function(data){
+    io.sockets.emit('user disconnect', { user : socket.username});
     users.splice(users.indexOf(socket.username), 1);
     updateUsernames();
     connections.splice(connections.indexOf(socket), 1);
@@ -43,14 +44,14 @@ io.on('connection', function(socket){
   });
 
   socket.on('new user', function(data, callback){
-    if(callback) callback(true);
+    callback(true);
     socket.username = data;
     users.push(socket.username);
-    io.sockets.emit('get users', {users: data});
+    updateUsernames(data);
     console.log("One weirdo named themselves "+ socket.username);
   });
-  function updateUsernames(){
-        io.sockets.emit('get users', users);
+  function updateUsernames(data){
+        io.sockets.emit('get users', data);
   }
 });
 

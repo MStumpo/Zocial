@@ -9,10 +9,14 @@
 <html>
   <head>
     <title>Zocial - the actual chat ._.</title>
-  <style type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+   <style type="text/css">
     body{
     background-color: #45f442;
-    font-family: "Courier New", Courier, monospace; 
+    font-family: "Courier New", Courier, monospace;
+    padding: 5%; 
     }
     li{
       list-style: none;
@@ -20,15 +24,8 @@
     #header{
       margin: 50px;
     }
-    #messages{
-      width: 40%;
-      height: 500px;
-      margin-left: 20%;
-      list-style: none;
-    }
     #send-form{
-      position: fixed;
-      margin-bottom: 5%;
+      margin-top: 30px;
       margin-left: 20%;
     }
     #message-in{
@@ -39,11 +36,15 @@
       border: solid;
       border-width: 2px;
       border-color: #38bc60;
-      height: 20px;
+      height: 26px;
+      width: 300px;
     }
-    #massage{
+    .massage{
       margin: 5px;
-      height: 20px;
+      width: 300px;
+      text-align: center;
+      font-size: 20px;
+      color: black;
     }
     #usr-spot{
       margin-left: 10%;
@@ -90,24 +91,38 @@
     #message-spot{
       margin-right: 20%;
         }
+    .message-out{
+      text-align: center;
+      margin-bottom: 50px;
+      margin: 5px;
+      background-color: #f7ff60;
+      width: 200px;
+      height: 200px;
+      border-radius: 10px;
+      display: inline;
+      font-size: 30px;
+      font-weight: 900px;
+      color: #5b5b5b;
+        }
 </style>
   </head>
   <body>
     <div id="header">
     <h1>Hey, you actually came!</h1>
     <h3>Thanks! I didn't actually expect you to come here. Oh well, enjoy the room ;D</h3>
+    <br>
+    <h5 id="instructions">Instructions: Because the chatroom is still being developed and its really stupid developer, all of the members have to be on the user form at the same time. After all the pages are loaded just type your username (without spaces pls) and feel about 1% of what zocializing is gonna be!</h5> 
   </div>
   <div id="room">
     <div id="usr-spot">So, what's your name?
 <form id="user-form" action=""><input id="usr" /><button type="submit" id="send-usr"  >Nice to meet you!</form>
     </div>
-    <div id="message-spot">
-    <ul id="messages"></ul>
-    <div id="send-form">
-    <form action="" id="message-formulary">
-      <input id="message-in" class="form-control type_msg" autocomplete="off"><button id="send-button">Give your words to the world</button>
-    </form>
+    <div id="message-spot" class="row">
   </div>
+      <div id="send-form">
+    <form action="" class="message-form">
+      <input id="message-in" autocomplete="off"><button id="send-button">Give your words to the world</button>
+    </form>
   </div>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -116,36 +131,38 @@
     var socket = io.connect();
     var username = $('#usr');
     var users = $('#user-list');
-
+    socket.io.emit('get users');
     $('#send-form').hide();
-    $('#message-formulary').submit(function(){
+    $('.message-form').submit(function(){
           socket.emit('message', $('#message-in').val());
           $('#message-in').val('');
           return false;
         });
     socket.on('message', function(data){
-      $('#messages').append($('<li class="massage"><strong>'+ data.user +' :</strong> '+ data.msg + '</li>'));
+
+      $('#'+data.user).append($('<div class="massage">'+ data.msg + '</div>')).fadeIn(1500);
+      fade();
     });
     function fade(){
-    // do whatever you like here
-    $(".massage").delay(100).fadeOut(300);
-    setTimeout(fade, 5000);
+    $(".massage").delay(5000).fadeOut(300);
     }
-    fade();
 
     $("#user-form").submit(function(e){
       e.preventDefault();
       socket.emit('new user', $(username).val(), function(data){
       if (data) {
         $('#usr-spot').fadeOut(1500);
+        $('#instructions').fadeOut(750);
         $('#send-form').fadeIn(1500);
       }
       });
       $(username).val('');
     });
-  //  socket.on('get users', function(data){
-    //  $(users).append('<li>'+socket.user+'</li>');
-   // });
+    socket.on('get users', function(data){
+      if(data != null){
+      $('#message-spot').append($('<div class="col-sm-5 message-out" id="'+data+'">'+data+'</div>')).fadeIn(1500);
+          }
+    });
   });
     </script>
   </body>
