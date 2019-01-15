@@ -131,7 +131,6 @@
     var socket = io.connect();
     var username = $('#usr');
     var users = $('#user-list');
-    socket.io.emit('get users');
     $('#send-form').hide();
     $('.message-form').submit(function(){
           socket.emit('message', $('#message-in').val());
@@ -160,9 +159,14 @@
     });
     socket.on('get users', function(data){
       if(data != null){
-      $('#message-spot').append($('<div class="col-sm-5 message-out" id="'+data+'">'+data+'</div>')).fadeIn(1500);
+      $('#message-spot').append($('<div class="col-sm-5 message-out" id="'+data+'">'+data+'</div>')).fadeIn(3000);
+          console.log(data + 'just connected');
           }
     });
+    socket.on('user disconnect', function(data){
+      $('#'+data.user).fadeOut(2000);
+      console.log(data.user + 'just disconnected');
+    })
   });
     </script>
   </body>
