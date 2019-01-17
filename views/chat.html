@@ -138,7 +138,6 @@
           return false;
         });
     socket.on('message', function(data){
-
       $('#'+data.user).append($('<div class="massage">'+ data.msg + '</div>')).fadeIn(1500);
       fade();
     });
@@ -157,6 +156,11 @@
       });
       $(username).val('');
     });
+    socket.on('update users', function(data){
+      for (var i = 0; i <= data.length; i++){
+        $('#'+data.user).append($('<div class="massage">'+ data.msg + '</div>')).fadeIn(1500);
+      }
+    })
     socket.on('get users', function(data){
       if(data != null){
       $('#message-spot').append($('<div class="col-sm-5 message-out" id="'+data+'">'+data+'</div>')).fadeIn(3000);

@@ -22,7 +22,24 @@ a{
   text-decoration: none;
 }
 
-#chatroom-create
+#opener-div{
+  margin: 30px;
+  background-color: #f7ff60;
+  border-radius: 10px;
+}
+#name{
+              background-color: #5d9afc;
+              border-radius: 10px;
+              height: 30px;
+}
+#send-name{
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  border-style: solid;
+  border-color: #f7ff60;  
+  transform: rotate(90deg);
+}
 
   </style>
 </head>
@@ -41,16 +58,15 @@ a{
       <div id="opener-div">
         <p>Are you a famous person?</p>
         <p>Want to talk to your fans?</p>
-        <p>No? Well dammit I was gonna give you the chance of opening a chat room</p>
-        <form id="chatroom-create" onsubmit="openchatroom()">
-          <input id="name" /><button type="submit" id="send-name"></button>
-        </form>
+        <p>No? Well dammit I was gonna give you the chance of opening a chat room in a super elite, cool-people-only website</p>
+          <input id="name" placeholder="There ya go ;D" /><button type="submit" id="send-name" onclick="openchatroom()"> :D</button>
       </div>
     </div>
 </body>
 <script type="text/javascript">
-  openchatroom(){
-    var name = $('#name');
+  function openchatroom(){
+    var name =  document.getElementById("name").value;
+    console.log(name);
   }
 </script>
 </html>
