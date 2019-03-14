@@ -24,6 +24,9 @@ app.get('/about', function(req, res){
 
 
 
+
+
+
 //CHAT SYSTEM 
 
 io.on('connection', function(socket){
@@ -49,6 +52,7 @@ io.on('connection', function(socket){
     users.push(socket.username);
     updateUsernames(data);
     console.log("One weirdo named themselves "+ socket.username);
+    console.log(users);
   });
   function updateUsernames(data){
         io.sockets.emit('get users', data);
