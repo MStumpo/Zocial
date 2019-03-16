@@ -1,14 +1,13 @@
 <!doctype html>
 <html>
   <head>
-    <title>Zocial - the actual chat ._.</title>
+    <title>Zocial - programmy</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
  <link rel = "stylesheet"
    type = "text/css"
-   href = "views/stylesheet.css" />
-   <style type="text/css">
+   href = "views/stylesheet.css" />   <style type="text/css">
      body{
     background-color: lightgreen;
     font-family: "Courier New", Courier, monospace;
@@ -21,8 +20,9 @@
       margin: 50px;
     }
     #send-form{
-      margin-top: 30px;
-      margin-left: 20%;
+      position: absolute;
+      margin-left: 10%;
+      width: 100%;
     }
     #message-in{
       background-color: grey;
@@ -72,8 +72,10 @@
       border-bottom-right-radius: 10px;
       border-top-right-radius: 10px;
       background-color: #38bc60;
-      border-color: #38bc60;
-      height: 26px;
+      border-color: gray;
+      bottom: 0px;
+      border-left-color: #38bc60;
+      height: 25px;
       color: black;
     }
 
@@ -89,9 +91,10 @@
       width: 40%;
     }
     #message-spot{
-      margin-right: 20%;
-            margin-bottom: 50px;
-        }
+          margin-right: 20%;
+            margin-top: 30px;
+            margin-bottom: 50%;
+    }
     .message-out{
       text-align: center;
       background-color: #f7ff60;
@@ -102,9 +105,23 @@
       font-size: 30px;
       font-weight: 900px;
       color: #5b5b5b;
-      margin-left: 10px;
-      margin-right: 10px;
+      margin-left: 10%;
+      margin-right: 10%;
         }
+
+      .message-form{
+        width: 100%;
+      }
+      #back{
+
+        border-radius: 5px;
+        border-width: 3px;
+        border-color: grey;
+        background-color: #38bc60;
+        border-style: solid; 
+        color: black;
+        margin-right: 10%;
+      }
    </style>
          </head>
   <body>
@@ -119,11 +136,16 @@
 <form id="user-form" action=""><input id="usr" /><button type="submit" id="send-usr">Nice to meet you!</form>
     </div>
     <div id="message-spot" class="row">
-  </div>
-      <div id="send-form">
+            </div>
+      <div id="send-form" class="fixed-bottom">
+              <div class="row">
     <form action="" class="message-form">
+                    <button id="back" onclick="window.location.href='https://zocialize.herokuapp.com/'">
+    Moonwalk your way back
+  </button>
       <input id="message-in" autocomplete="off"><button id="send-button">Give your words to the world</button>
     </form>
+    </div>
   </div>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
