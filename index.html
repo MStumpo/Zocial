@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zocial - homepage</title>
+  <style type="text/css">
+  .col{
+    background-color: lightgray;
+    border-color: blue;
+    border: 3px;
+      }
+
+    #base{
+      background-color: lightgreen;
+      font-family: 'Proxima Nova Soft', 'Helvetica Neue', sans-serif;
+    }
+  </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">  
+</head>
+  <body id="base">
+    <h1 id="title">Zocial</h1>
+    <br>
+    <div id="description">
+      <p>Wanna talk to that guy from your dreams? Wanna ask people around the world school stuff? Workin on it ;D</p>
+      <br>
+      <a href="/about" id="about">Learn more about what this is about and how the website will evolve</a>
+      <br>
+      <p>We now have 3 chat rooms!</p>
+      <p style="font-size: 9px">Yes, I <strong>am</strong> working on a room creating feature but again, I got a lot of stuff going on</p>
+      <div id="room menu" class="container-fluid">
+        <div class="row">
+          <div class="col room">
+            <a href="/science">Science
+          </div>
+          <div class="col room">
+            <a href="/programming">Programming (or if you drink too much coffee)
+          </div>
+          <div class="col room">
+            <a href="/normal-people">Stuff that's not science or programming</a>
+          </div>
+        </div>
+      </div>
+
+
+<!--
+      <div id="opener-div" class="container">
+        <p>Are you a famous person?</p>
+        <p>Want to talk to your fans?</p>
+        <p>No? Well dammit I was gonna give you the chance of opening a chat room in a super elite, cool-people-only website</p>
+        <p>Nevermind, this bottom part doesn't work. <strong> Not yet</strong>.</p>
+          <input id="name" placeholder="Name here and there ya go ;D" /><button type="submit" id="send-name" onclick="openchatroom()"> :D</button>
+      </div>
+    </div>
+        -->
+</body>
+<script type="text/javascript">
+  function openchatroom(){
+    var name =  document.getElementById("name").value;
+    console.log(name);
+  }
+</script>
+</html>

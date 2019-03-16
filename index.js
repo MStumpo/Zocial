@@ -11,15 +11,23 @@ http.listen(port, function(){
 });
 
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/views/index.html');
+  res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/chat', function(req, res){
-  res.sendFile(__dirname + '/views/chat.html');
+app.get('/science', function(req, res){
+  res.sendFile(__dirname + '/chat.html');
+});
+
+app.get('/programming', function(req, res){
+  res.sendFile(__dirname + '/chat2.html');
+});
+
+app.get('/normal-people', function(req, res){
+  res.sendFile(__dirname + '/chat3.html');
 });
 
 app.get('/about', function(req, res){
-  res.sendFile(__dirname + '/views/about.html');
+  res.sendFile(__dirname + '/about.html');
 });
 
 
@@ -41,21 +49,22 @@ io.on('connection', function(socket){
     console.log('Connected: %s people connected', connections.length);
   });
 
-  socket.on('message', function(data){ 
-    io.sockets.emit('message', {msg : data, user: socket.username});
+  socket.on('message', function(data, room){
+    var target = room; 
+    io.sockets.emit('message', {msg : data, user: socket.username}, target);
     console.log(socket.username + ' --> ' + data);
   });
 
-  socket.on('new user', function(data, callback){
-    callback(true);
+  socket.on('new user', function(data, room){
     socket.username = data;
     users.push(socket.username);
-    updateUsernames(data);
+    updateUsernames(data, room);
     console.log("One weirdo named themselves "+ socket.username);
     console.log(users);
   });
-  function updateUsernames(data){
-        io.sockets.emit('get users', data);
+  function updateUsernames(data, room){
+    var target = room;
+        io.sockets.emit('get users', data, target);
   }
 });
 
