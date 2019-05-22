@@ -17,7 +17,7 @@ app.get('/', function(req, res){
 app.get('/science', function(req, res){
   res.sendFile(__dirname + '/chat.html');
 });
-
+/*
 app.get('/programming', function(req, res){
   res.sendFile(__dirname + '/chat2.html');
 });
@@ -25,7 +25,7 @@ app.get('/programming', function(req, res){
 app.get('/normal-people', function(req, res){
   res.sendFile(__dirname + '/chat3.html');
 });
-
+*/
 app.get('/about', function(req, res){
   res.sendFile(__dirname + '/about.html');
 });
@@ -62,9 +62,16 @@ io.on('connection', function(socket){
     console.log("One weirdo named themselves "+ socket.username);
     console.log(users);
   });
+
+  socket.on('create room', function(name){
+    app.get('/'+name, function(req, res){
+    res.sendFile(__dirname + '/chat.html');
+  });
+    console.log("Room "+name+" made!");
+  });
   function updateUsernames(data, room){
     var target = room;
-        io.sockets.emit('get users', data, target);
+    io.sockets.emit('get users', data, target);
   }
 });
 

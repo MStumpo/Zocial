@@ -41,7 +41,6 @@
         <br>
       <h4>P.S.: For everyone that complained about the background green, I fixed it for you sensitive douches. I'm colorblind dammit!</h3>
 
-<!--
       <div id="opener-div" class="container">
         <p>Are you a famous person?</p>
         <p>Want to talk to your fans?</p>
@@ -50,12 +49,15 @@
           <input id="name" placeholder="Name here and there ya go ;D" /><button type="submit" id="send-name" onclick="openchatroom()"> :D</button>
       </div>
     </div>
-        -->
 </body>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script type="text/javascript">
+  var socket = io();
   function openchatroom(){
-    var name =  document.getElementById("name").value;
-    console.log(name);
+    var name =  (document.getElementById("name").value).replace(/\s/g, "-");
+    socket.emit('create room', name);
+    console.log("Room making request sent (I think)");
   }
 </script>
 </html>
