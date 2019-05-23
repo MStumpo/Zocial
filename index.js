@@ -5,7 +5,8 @@ var port = process.env.PORT || 3000;
 const url = require('url');
 users = [];
 connections = [];
-
+rooms = [];
+persons = [];
 http.listen(port, function(){
   console.log('listening on port ' + port + ', time to... try not to fail...');
 });
@@ -17,15 +18,6 @@ app.get('/', function(req, res){
 app.get('/science', function(req, res){
   res.sendFile(__dirname + '/chat.html');
 });
-/*
-app.get('/programming', function(req, res){
-  res.sendFile(__dirname + '/chat2.html');
-});
-
-app.get('/normal-people', function(req, res){
-  res.sendFile(__dirname + '/chat3.html');
-});
-*/
 app.get('/about', function(req, res){
   res.sendFile(__dirname + '/about.html');
 });
@@ -34,7 +26,8 @@ app.get('/about', function(req, res){
 
 
 
-
+var i = 0;
+var j = 0;
 //CHAT SYSTEM 
 
 io.on('connection', function(socket){
@@ -42,9 +35,13 @@ io.on('connection', function(socket){
   console.log('Connected: %s people connected', connections.length);
   socket.on('disconnect', function(data){
     io.sockets.emit('user disconnect', { user : socket.username});
+    var ed = users.indexOf(socket.username);
     users.splice(users.indexOf(socket.username), 1);
+    for(var k = ed; k < users.length - ed - 1; k++){
+      users[k] = users[k+1];
+    }
     updateUsernames();
-    connections.splice(connections.indexOf(socket), 1);
+    connections.splice(connections.indexOf(socket)  , 1);
     console.log('An arse left');
     console.log('Connected: %s people connected', connections.length);
   });
@@ -57,21 +54,33 @@ io.on('connection', function(socket){
 
   socket.on('new user', function(data, room){
     socket.username = data;
-    users.push(socket.username);
-    updateUsernames(data, room);
-    console.log("One weirdo named themselves "+ socket.username);
-    console.log(users);
+    users[j] = [socket.username];
+    j++;
+    updateUsernames(room);
+    console.log("One weirdko named themselves "+ socket.username);
   });
 
   socket.on('create room', function(name){
     app.get('/'+name, function(req, res){
     res.sendFile(__dirname + '/chat.html');
   });
-    console.log("Room "+name+" made!");
+    rooms[i] = name;
+    i++;
+    socket.emit('get rooms', rooms);
+    console.log("Room "+name+" made !");
   });
-  function updateUsernames(data, room){
+  socket.on('request rooms', function(){
+    socket.emit('get rooms', rooms);
+    console.log(rooms);
+  });
+  socket.on('request users', function(room){
+    target = room;
+    socket.emit('get users', users, target);
+  });
+  function updateUsernames(room){
     var target = room;
-    io.sockets.emit('get users', data, target);
+    io.sockets.emit('get users', users, target);
+    console.log(users);
   }
 });
 

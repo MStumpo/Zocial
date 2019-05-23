@@ -24,29 +24,17 @@
       <br>
       <a href="/about" id="about">Learn more about what this is about and how the website will evolve</a>
       <br>
-      <p>We now have 3 chat rooms!</p>
-      <p style="font-size: 9px">Yes, I <strong>am</strong> working on a room creating feature but again, I got a lot of stuff going on</p>
-      <div id="room menu" class="container-fluid">
-        <div class="row">
-          <div class="col room">
-            <a href="/science">Science
-          </div>
-          <div class="col room">
-            <a href="/programming">Programming (or if you drink too much coffee)
-          </div>
-          <div class="col room">
-            <a href="/normal-people">Stuff that's not science or programming</a>
-          </div>
-        </div>
-        <br>
+      <p style="font-size: 9px">Room creating feature is done!</p>
+      <ul id="room-menu" class="list-group" style="background-color: lightgreen">
+        <h3>The rooms in this shit ass website:</h3>
+          <br>
+      </ul>
       <h4>P.S.: For everyone that complained about the background green, I fixed it for you sensitive douches. I'm colorblind dammit!</h3>
-
       <div id="opener-div" class="container">
         <p>Are you a famous person?</p>
         <p>Want to talk to your fans?</p>
         <p>No? Well dammit I was gonna give you the chance of opening a chat room in a super elite, cool-people-only website</p>
-        <p>Nevermind, this bottom part doesn't work. <strong> Not yet</strong>.</p>
-          <input id="name" placeholder="Name here and there ya go ;D" /><button type="submit" id="send-name" onclick="openchatroom()"> :D</button>
+          <form><input id="name" placeholder="Name here and there ya go ;D" /><button type="submit" id="send-name" onclick="openchatroom()"> :D</button></form>
       </div>
     </div>
 </body>
@@ -57,7 +45,17 @@
   function openchatroom(){
     var name =  (document.getElementById("name").value).replace(/\s/g, "-");
     socket.emit('create room', name);
+
     console.log("Room making request sent (I think)");
   }
+  socket.emit('request rooms');
+  socket.on('get rooms', function(rooms){
+    console.log(rooms);
+    for(i=0; i < rooms.length; i++){
+    if(!document.getElementById(rooms[i])){
+          $('#room-menu').append("<a type=\"button\" id="+rooms[i]+" style=\"width: 50%\" class=\"btn btn-info\" href="+rooms[i]+">"+rooms[i]+"</a>");
+        }
+    }
+  });
 </script>
 </html>
