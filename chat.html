@@ -158,8 +158,7 @@
     socket.emit('confirm room', room);
     socket.emit('request users', room);
     var username = $('#usr');
-    var users = $('#user-list');
-    var registered_users = [];
+    var user_list = $('#user-list');
     $('#send-form').hide();
     $('.message-form').submit(function(){
           socket.emit('message', $('#message-in').val(), room);
@@ -189,8 +188,12 @@
     socket.on('get users', function(users, target){
     if(target == room){
       for(i = 0; i < users.length; i++){
-      if(users[i] != null && !document.getElementById(users[i])){
-      $('#message-spot').append($('<div class="col-sm-5 message-out" id="'+users[i]+'">'+users[i]+'</div>')).fadeIn(3000);
+      if(users[i] != null && !document.getElementById(users[i][0]) && users[i][1] == room){
+        console.log("Condition ye");
+      $('#message-spot').append($('<div class="col-sm-5 message-out" id="'+users[i][0]+'">'+users[i][0]+'</div>')).fadeIn(3000);
+    }else{
+      console.log("condition not ye");
+      console.log(users[i]);
     }
   }
   }

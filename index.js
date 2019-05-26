@@ -37,9 +37,6 @@ io.on('connection', function(socket){
     io.sockets.emit('user disconnect', { user : socket.username});
     var ed = users.indexOf(socket.username);
     users.splice(users.indexOf(socket.username), 1);
-    for(var k = ed; k < users.length - ed - 1; k++){
-      users[k] = users[k+1];
-    }
     updateUsernames();
     connections.splice(connections.indexOf(socket)  , 1);
     console.log('An arse left');
@@ -54,7 +51,7 @@ io.on('connection', function(socket){
 
   socket.on('new user', function(data, room){
     socket.username = data;
-    users[j] = [socket.username];
+    users[j] = [socket.username, room];
     j++;
     updateUsernames(room);
     console.log("One weirdko named themselves "+ socket.username);
